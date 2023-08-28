@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeForTestingAutomatedDownload", "ChromeDriverAutomatedDownload\ChromeForTestingAutomatedDownload.csproj", "{CAD75A57-37AF-45D6-BC50-67C57B43210E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAD75A57-37AF-45D6-BC50-67C57B43210E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAD75A57-37AF-45D6-BC50-67C57B43210E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAD75A57-37AF-45D6-BC50-67C57B43210E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAD75A57-37AF-45D6-BC50-67C57B43210E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F02CEC8-54BA-4382-A035-DE9C9B976985}
+	EndGlobalSection
+EndGlobal
