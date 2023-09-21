@@ -17,7 +17,7 @@ Support library that interfaces with the JSON endpoints included in https://gith
 ```csharp
 public static class ChromeVersionModelFactory
 {
-    public static async Task<T> CreateChromeVersionModel<T>() where T : IChromeVersionModel, new()
+    public static async Task<T> CreateChromeVersionModelAsync<T>() where T : IChromeVersionModel, new()
     {
         var response = await new T().QueryEndpointAsync();
 
@@ -35,7 +35,7 @@ public static class ChromeVersionModelFactory
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
-    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+    .CreateChromeVersionModelAsync<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
 
 var url = await result.GetMostRecentAssetURL(Binary.ChromeDriver, Platform.MacX64);
 
@@ -46,7 +46,7 @@ Console.WriteLine(url);
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
-    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+    .CreateChromeVersionModelAsync<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
 
 var url = await result
     .GetMostRecentAssetURLByMajorReleaseNumber(Binary.ChromeDriver, Platform.Win64, 118);
@@ -58,7 +58,7 @@ Console.WriteLine(url);
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
-    .CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
+    .CreateChromeVersionModelAsync<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
 
 var downloadURL = result
     .Channels
@@ -76,7 +76,7 @@ Console.WriteLine(downloadURL);
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
-    .CreateChromeVersionModel<LatestPatchVersionsPerBuildWithDownloads.ChromeVersionModel>();
+    .CreateChromeVersionModelAsync<LatestPatchVersionsPerBuildWithDownloads.ChromeVersionModel>();
 
 var builds = result.Builds.Values;
 
@@ -100,7 +100,7 @@ foreach (var url in chromeDriverURLs)
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
-    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+    .CreateChromeVersionModelAsync<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
 
 var chromeDriverDownlods = result
     .Milestones
