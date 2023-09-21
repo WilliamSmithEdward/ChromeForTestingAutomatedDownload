@@ -48,3 +48,23 @@ var downloadURL = result
 
 Console.WriteLine(downloadURL);
 ```
+
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LatestPatchVersionsPerBuildWithDownloads.ChromeVersionModel>();
+
+var builds = result.Builds.Values;
+
+var download = builds.Select(x => x.Downloads);
+
+var chromeDriverDownloads = download.SelectMany(x => x.ChromeDriver);
+
+var chromeDriverURLs = chromeDriverDownloads.Where(x => x.Platform.Equals("win64") && string.IsNullOrEmpty(x.Url) == false).Select(x => x.Url);
+
+foreach (var url in chromeDriverURLs)
+{
+    Console.WriteLine(url);
+}
+```
