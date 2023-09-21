@@ -35,6 +35,17 @@ public static class ChromeVersionModelFactory
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+
+var url = await result.GetMostRecentAssetURL(Binary.ChromeDriver, Platform.MacX64);
+
+Console.WriteLine(url);
+```
+
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory
     .CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
 
 var downloadURL = result
