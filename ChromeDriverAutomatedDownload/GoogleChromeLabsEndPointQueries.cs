@@ -1,6 +1,6 @@
 ﻿namespace ChromeForTestingAutomatedDownload
 {
-    public class GoogleChromeLabsEndPointQueries
+    public class GoogleChromeLabsEndpointQueries
     {
         private static readonly HttpClient _httpClient = new HttpClient();
 
