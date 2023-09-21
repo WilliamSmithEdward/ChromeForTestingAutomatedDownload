@@ -46,6 +46,17 @@ Console.WriteLine(url);
 using ChromeForTestingAutomatedDownload;
 
 var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+
+var url = await result.GetMostRecentAssetURLByMajorReleaseNumber(Binary.ChromeDriver, Platform.Win64, 118);
+
+Console.WriteLine(url);
+```
+
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory
     .CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
 
 var downloadURL = result
