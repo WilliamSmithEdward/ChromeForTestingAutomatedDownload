@@ -34,7 +34,8 @@ public static class ChromeVersionModelFactory
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
-var result = await ChromeVersionModelFactory.CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
+var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
 
 var downloadURL = result
     .Channels
