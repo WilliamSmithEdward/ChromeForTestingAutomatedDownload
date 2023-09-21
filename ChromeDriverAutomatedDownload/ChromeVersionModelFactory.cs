@@ -4,7 +4,7 @@ namespace ChromeForTestingAutomatedDownload
 {
     public static class ChromeVersionModelFactory
     {
-        public static async Task<T> CreateChromeVersionModel<T>() where T : IChromeVersionModel, new()
+        public static async Task<T> CreateChromeVersionModelAsync<T>() where T : IChromeVersionModel, new()
         {
             var response = await new T().QueryEndpointAsync();
 

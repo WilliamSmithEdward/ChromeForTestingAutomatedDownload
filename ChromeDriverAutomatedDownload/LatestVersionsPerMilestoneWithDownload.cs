@@ -32,7 +32,7 @@ namespace ChromeForTestingAutomatedDownload
 
             public async Task<Dictionary<string, string>?> GetAssetList(Binary _binary, Platform _platform)
             {
-                var model = await ChromeVersionModelFactory.CreateChromeVersionModel<ChromeVersionModel>();
+                var model = await ChromeVersionModelFactory.CreateChromeVersionModelAsync<ChromeVersionModel>();
 
                 string platform = "";
 
