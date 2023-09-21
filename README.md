@@ -72,3 +72,22 @@ foreach (var url in chromeDriverURLs)
     Console.WriteLine(url);
 }
 ```
+
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+
+var chromeDriverDownlods = result
+    .Milestones
+    .Values
+    .Select(x => x.Downloads)
+    .SelectMany(x => x.ChromeDriver)
+    .ToList();
+
+foreach (var item in chromeDriverDownlods)
+{
+    Console.WriteLine(item.Platform + " " + item.Url);
+}
+```
