@@ -57,11 +57,15 @@ var result = await ChromeVersionModelFactory
 
 var builds = result.Builds.Values;
 
-var download = builds.Select(x => x.Downloads);
+var download = builds
+    .Select(x => x.Downloads);
 
-var chromeDriverDownloads = download.SelectMany(x => x.ChromeDriver);
+var chromeDriverDownloads = download
+    .SelectMany(x => x.ChromeDriver);
 
-var chromeDriverURLs = chromeDriverDownloads.Where(x => x.Platform.Equals("win64") && string.IsNullOrEmpty(x.Url) == false).Select(x => x.Url);
+var chromeDriverURLs = chromeDriverDownloads
+    .Where(x => x.Platform.Equals("win64") && string.IsNullOrEmpty(x.Url) == false)
+    .Select(x => x.Url);
 
 foreach (var url in chromeDriverURLs)
 {
