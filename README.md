@@ -32,17 +32,18 @@ public static class ChromeVersionModelFactory
 ### Example Usage
 
 ```csharp
-var result = await ChromeVersionModelFactory
-	.CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory.CreateChromeVersionModel<LastKnownGoodVersionsWithDownloads.ChromeVersionModel>();
 
 var downloadURL = result
-	.Channels
-	.Stable
-	.Downloads
-	.ChromeDriver
-	.Where(x => x.Platform.Equals("win64"))
-	.First()
-	.Url;
+    .Channels
+    .Stable
+    .Downloads
+    .ChromeDriver
+    .Where(x => x.Platform.Equals("win64"))
+    .First()
+    .Url;
 
 Console.WriteLine(downloadURL);
 ```
