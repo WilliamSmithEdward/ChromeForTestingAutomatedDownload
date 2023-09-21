@@ -19,7 +19,7 @@ public static class ChromeVersionModelFactory
 {
     public static async Task<T> CreateChromeVersionModel<T>() where T : IChromeVersionModel, new()
     {
-        var response = await new T().QueryEndpoint();
+        var response = await new T().QueryEndpointAsync();
 
         var deserializedObject = JsonSerializer.Deserialize<T>(response);
         if (deserializedObject != null) return deserializedObject;
