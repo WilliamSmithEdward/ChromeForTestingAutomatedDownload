@@ -2,21 +2,24 @@
 
 namespace ChromeForTestingAutomatedDownload
 {
-    public class KnownGoodVersionsWithDownload
+    public class LatestVersionsPerMilestoneWithDownload
     {
         public class ChromeVersionModel : IChromeVersionModel
         {
-            public Func<Task<string>> QueryEndpointAsync { get; set; } = GoogleChromeLabsEndpointQueries.GetKnownGoodVersionsWithDownloadAsync;
-
-            [JsonPropertyName("versions")]
-            public List<VersionMetaData> Versions { get; set; } = new List<VersionMetaData>();
+            public Func<Task<string>> QueryEndpointAsync { get; set; } = GoogleChromeLabsEndpointQueries.GetLatestVersionsPerMilestoneWithDownloadAsync;
 
             [JsonPropertyName("timestamp")]
             public DateTime TimeStamp { get; set; }
+
+            [JsonPropertyName("milestones")]
+            public Dictionary<string, Milestones> Milestones { get; set; } = new Dictionary<string, Milestones>();
         }
 
-        public class VersionMetaData
+        public class Milestones
         {
+            [JsonPropertyName("milestone")]
+            public string Channel { get; set; } = string.Empty;
+
             [JsonPropertyName("version")]
             public string Version { get; set; } = string.Empty;
 

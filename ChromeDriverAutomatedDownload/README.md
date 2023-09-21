@@ -19,7 +19,7 @@ public static class ChromeVersionModelFactory
 {
     public static async Task<T> CreateChromeVersionModel<T>() where T : IChromeVersionModel, new()
     {
-        var response = await new T().QueryEndpoint();
+        var response = await new T().QueryEndpointAsync();
 
         var deserializedObject = JsonSerializer.Deserialize<T>(response);
         if (deserializedObject != null) return deserializedObject;
@@ -47,4 +47,47 @@ var downloadURL = result
     .Url;
 
 Console.WriteLine(downloadURL);
+```
+
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LatestPatchVersionsPerBuildWithDownloads.ChromeVersionModel>();
+
+var builds = result.Builds.Values;
+
+var downloads = builds
+    .Select(x => x.Downloads);
+
+var chromeDriverDownloads = download
+    .SelectMany(x => x.ChromeDriver);
+
+var chromeDriverURLs = chromeDriverDownloads
+    .Where(x => x.Platform.Equals("win64") && string.IsNullOrEmpty(x.Url) == false)
+    .Select(x => x.Url);
+
+foreach (var url in chromeDriverURLs)
+{
+    Console.WriteLine(url);
+}
+```
+
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+var result = await ChromeVersionModelFactory
+    .CreateChromeVersionModel<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
+
+var chromeDriverDownlods = result
+    .Milestones
+    .Values
+    .Select(x => x.Downloads)
+    .SelectMany(x => x.ChromeDriver)
+    .ToList();
+
+foreach (var item in chromeDriverDownlods)
+{
+    Console.WriteLine(item.Platform + " " + item.Url);
+}
 ```

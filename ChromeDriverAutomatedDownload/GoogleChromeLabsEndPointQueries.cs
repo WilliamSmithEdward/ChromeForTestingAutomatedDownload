@@ -17,6 +17,9 @@
             await _httpClient.GetStringAsync("https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json");
 
         public static async Task<string> GetLatestPatchVersionsPerBuildAsync() =>
+            await _httpClient.GetStringAsync("https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build.json");
+
+        public static async Task<string> GetLatestPatchVersionsPerBuildAsyncWithDownloads() =>
             await _httpClient.GetStringAsync("https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json");
 
         public static async Task<string> GetLatestVersionsPerMilestoneAsync() =>

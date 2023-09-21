@@ -6,7 +6,7 @@ namespace ChromeForTestingAutomatedDownload
     {
         public class ChromeVersionModel : IChromeVersionModel
         {
-            public Func<Task<string>> QueryEndpoint { get; set; } = GoogleChromeLabsEndpointQueries.GetLastKnownGoodVersionsWithDownloadAsync;
+            public Func<Task<string>> QueryEndpointAsync { get; set; } = GoogleChromeLabsEndpointQueries.GetLastKnownGoodVersionsWithDownloadAsync;
 
             [JsonPropertyName("timestamp")]
             public DateTime TimeStamp { get; set; }

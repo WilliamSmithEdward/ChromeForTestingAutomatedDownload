@@ -2,6 +2,6 @@
 {
     public interface IChromeVersionModel 
     {
-        public Func<Task<string>> QueryEndpoint { get; set; }
+        public Func<Task<string>> QueryEndpointAsync { get; set; }
     }
 }
