@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	<Deterministic>false</Deterministic>
@@ -23,7 +23,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chrome for Testing Automated Download</Title>
     <Copyright>William Smith (WilliamSmithE)</Copyright>
-    <Description>ChromeForTestingAutomatedDownload is a .Net library that interacts with the GoogleChromeLabs JSON endpoints to download Chrome automation resources.</Description>
+    <Description>ChromeForTestingAutomatedDownload is a .Net library that interacts with the GoogleChromeLabs Chrome for Testing JSON endpoints to download Chrome automation resources. GoogleChromeLabs • ChromeForTesting • Chrome • ChromeDriver • ChromeHeadlessShell</Description>
     <PackageProjectUrl>https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
   </PropertyGroup>
