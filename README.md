@@ -57,7 +57,7 @@ var result = await ChromeVersionModelFactory
 
 var builds = result.Builds.Values;
 
-var download = builds
+var downloads = builds
     .Select(x => x.Downloads);
 
 var chromeDriverDownloads = download
