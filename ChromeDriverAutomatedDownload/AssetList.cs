@@ -49,7 +49,6 @@
                 default:
                     return null;
             }
-            
         }
     }
 }
