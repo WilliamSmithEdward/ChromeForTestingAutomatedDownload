@@ -18,10 +18,12 @@
 
     public interface IDownload
     {
+        public Dictionary<string, IVersionObject> GetVersionObject();
+
         public Task<string?> GetMostRecentAssetURL(Binary binary, Platform platform);
 
         public Task<string?> GetMostRecentAssetURLByMajorReleaseNumber(Binary binary, Platform platform, int majorReleaseNumber);
 
-        public Task<Dictionary<string, string>?> GetAssetList(Binary _binary, Platform _platform);
+        public Task<string?> GetAssetURLByFullVersionNumber(Binary binary, Platform platform, string fullVersionNumber);
     }
 }
