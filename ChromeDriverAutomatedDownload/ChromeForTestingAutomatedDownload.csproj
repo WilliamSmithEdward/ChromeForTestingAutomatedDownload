@@ -2,8 +2,8 @@
 
   <PropertyGroup>
 	<Deterministic>false</Deterministic>
-    <AssemblyVersion>1.0.4</AssemblyVersion>
-    <PackageVersion>1.0.4</PackageVersion>
+    <AssemblyVersion>1.0.6</AssemblyVersion>
+    <PackageVersion>1.0.6</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -26,6 +26,10 @@
     <Description>ChromeForTestingAutomatedDownload is a .Net library that interacts with the GoogleChromeLabs Chrome for Testing JSON endpoints to download Chrome automation resources. GoogleChromeLabs • ChromeForTesting • Chrome • ChromeDriver • ChromeHeadlessShell</Description>
     <PackageProjectUrl>https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
