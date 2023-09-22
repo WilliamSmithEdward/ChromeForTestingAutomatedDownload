@@ -20,10 +20,10 @@
     {
         public Dictionary<string, IVersionObject> GetVersionObject();
 
-        public Task<string?> GetMostRecentAssetURL(Binary binary, Platform platform);
+        public Task<string?> GetMostRecentAssetURLAsync(Binary binary, Platform platform);
 
-        public Task<string?> GetMostRecentAssetURLByMajorReleaseNumber(Binary binary, Platform platform, int majorReleaseNumber);
+        public Task<string?> GetMostRecentAssetURLByMajorReleaseNumberAsync(Binary binary, Platform platform, int majorReleaseNumber);
 
-        public Task<string?> GetAssetURLByFullVersionNumber(Binary binary, Platform platform, string fullVersionNumber);
+        public Task<string?> GetAssetURLByFullVersionNumberAsync(Binary binary, Platform platform, string fullVersionNumber);
     }
 }

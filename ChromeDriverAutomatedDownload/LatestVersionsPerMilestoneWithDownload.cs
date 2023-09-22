@@ -13,7 +13,7 @@ namespace ChromeForTestingAutomatedDownload
                 return Milestones.ToDictionary(x => x.Key, x => (IVersionObject)x.Value);
             }
 
-            public async Task<string?> GetMostRecentAssetURL(Binary binary, Platform platform)
+            public async Task<string?> GetMostRecentAssetURLAsync(Binary binary, Platform platform)
             {
                 var platformList = await AssetList.GetAssetListAsync<ChromeVersionModel>(binary, platform);
 
@@ -23,7 +23,7 @@ namespace ChromeForTestingAutomatedDownload
                     .Value;
             }
 
-            public async Task<string?> GetMostRecentAssetURLByMajorReleaseNumber(Binary binary, Platform platform, int majorReleaseNumber)
+            public async Task<string?> GetMostRecentAssetURLByMajorReleaseNumberAsync(Binary binary, Platform platform, int majorReleaseNumber)
             {
                 var platformList = await AssetList.GetAssetListAsync<ChromeVersionModel>(binary, platform);
 
@@ -41,7 +41,7 @@ namespace ChromeForTestingAutomatedDownload
                     .Value;
             }
 
-            public async Task<string?> GetAssetURLByFullVersionNumber(Binary binary, Platform platform, string fullVersionNumber)
+            public async Task<string?> GetAssetURLByFullVersionNumberAsync(Binary binary, Platform platform, string fullVersionNumber)
             {
                 var platformList = await AssetList.GetAssetListAsync<ChromeVersionModel>(binary, platform);
 
