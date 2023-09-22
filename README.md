@@ -8,6 +8,7 @@ Support library that interfaces with the JSON endpoints included in https://gith
 * KnownGoodVersionsWithDownloads.ChromeVersionModel
 * LastKnownGoodVersion.ChromeVersionModel
 * LastKnownGoodVersionWithDownloads.ChromeVersionModel
+* LatestPatchVersionsPerBuild.ChromeVersionModel
 * LatestPatchVersionsPerBuildWithDownloads.ChromeVersionModel
 * LatestVersionsPerMilestone.ChromeVersionModel
 * LatestVersionsPerMilestoneWithDownloads.ChromeVersionModel
