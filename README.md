@@ -36,7 +36,7 @@ public static class ChromeVersionModelFactory
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
-await AutomatedDownload.DownloadChromeDriver();
+await AutomatedDownload.DownloadChromeDriverAsync();
 ```
 
 #### Get the URL of the Most Recent Asset
