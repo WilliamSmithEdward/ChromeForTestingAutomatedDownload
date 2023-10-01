@@ -2,22 +2,20 @@
 
   <PropertyGroup>
 	<Deterministic>false</Deterministic>
-    <AssemblyVersion>1.0.8</AssemblyVersion>
-    <PackageVersion>1.0.8</PackageVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>nugetREADME.md</PackageReadmeFile>
   </PropertyGroup>
 	
   <ItemGroup>
-	<None Include="README.md" Pack="true" PackagePath="\">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-  </ItemGroup>
-	
-  <ItemGroup>
     <None Update="ChromeForTestingAutomatedDownload.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="nugetREADME.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -30,14 +28,14 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chrome for Testing Automated Download</Title>
     <Copyright>William Smith (WilliamSmithE)</Copyright>
-    <Description>ChromeForTestingAutomatedDownload is a .Net library that interacts with the GoogleChromeLabs Chrome for Testing JSON endpoints to download Chrome automation resources.</Description>
+    <Description>ChromeForTestingAutomatedDownload is a C# library that interacts with the GoogleChromeLabs Chrome for Testing JSON endpoints to download Chrome automation resources.</Description>
     <PackageProjectUrl>https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageTags>GoogleChromeLabs;ChromeForTesting;Chrome;ChromeDriver;ChromeHeadlessShell;Automation</PackageTags>
+	<PackageTags>googlechromelabs;chromefortesting;chrome;chromedriver;chromeheadlessshell;auto;automation;download</PackageTags>
 	<PackageIcon>ChromeForTestingAutomatedDownload.png</PackageIcon>
   </PropertyGroup>
 

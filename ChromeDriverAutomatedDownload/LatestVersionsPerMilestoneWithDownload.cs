@@ -29,11 +29,6 @@ namespace ChromeForTestingAutomatedDownload
 
                 if (platformList == null) return null;
 
-                foreach (var item in platformList.Keys)
-                {
-                    await Console.Out.WriteLineAsync(item);
-                }
-
                 return platformList?
                     .OrderByDescending(x => x.Key)
                     .Where(x => x.Key.Split('.')[0].Equals(majorReleaseNumber.ToString()))
