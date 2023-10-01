@@ -4,7 +4,7 @@ namespace ChromeForTestingAutomatedDownload
 {
     public static class AutomatedDownload
     {
-        public static async Task DownloadChromeDriver(string downloadPath = "")
+        public static async Task DownloadChromeDriverAsync(string downloadPath = "")
         {
             if (string.IsNullOrWhiteSpace(downloadPath)) downloadPath = AppDomain.CurrentDomain.BaseDirectory;
 
