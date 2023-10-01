@@ -2,8 +2,8 @@
 
   <PropertyGroup>
 	<Deterministic>false</Deterministic>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <PackageVersion>1.1.0</PackageVersion>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <PackageVersion>1.1.1</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,7 +35,7 @@
 
   <PropertyGroup>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageTags>googlechromelabs;chromefortesting;chrome;chromedriver;chromeheadlessshell;auto;automation;download</PackageTags>
+	<PackageTags>googlechromelabs;chromefortesting;chrome;chromedriver;chromeheadlessshell;automation;download;selenium;webdriver</PackageTags>
 	<PackageIcon>ChromeForTestingAutomatedDownload.png</PackageIcon>
   </PropertyGroup>
 
