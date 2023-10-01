@@ -32,7 +32,7 @@ namespace ChromeForTestingAutomatedDownload
 
                     var driver = archive.Entries.Where(x => x.FullName.Contains("chromedriver.exe")).First();
 
-                    driver.ExtractToFile(Path.Combine(downloadPath, "chromedriver.exe"), true);
+                    await Task.Run(() => driver.ExtractToFile(Path.Combine(downloadPath, "chromedriver.exe"), true));
 
                     Console.WriteLine("File downloaded successfully!");
                 }
