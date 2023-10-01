@@ -32,6 +32,14 @@ public static class ChromeVersionModelFactory
 
 ### Example Usage
 
+#### Download the Latest Version of ChromeDriver that Matches the Major Release Version of Chrome Installed on the Machine (Win64 Only, WIP)
+```csharp
+using ChromeForTestingAutomatedDownload;
+
+await AutomatedDownload.DownloadChromeDriver();
+```
+
+#### Get the URL of the Most Recent Asset
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
@@ -43,6 +51,7 @@ var url = await result.GetMostRecentAssetURLAsync(Binary.ChromeDriver, Platform.
 Console.WriteLine(url);
 ```
 
+Get the URL of the Most Recent Asset by Major Release Number
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
@@ -55,6 +64,7 @@ var url = await result
 Console.WriteLine(url);
 ```
 
+#### Get a Specific Download URL by Filtering with LINQ
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
@@ -73,6 +83,7 @@ var downloadURL = result
 Console.WriteLine(downloadURL);
 ```
 
+#### Get a List of Last Known Good Versions by Binary Type / Platform
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
@@ -97,6 +108,7 @@ foreach (var url in chromeDriverURLs)
 }
 ```
 
+#### Get a List of All Milestones Download URLs
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
