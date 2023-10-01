@@ -2,6 +2,10 @@
 
 Support library that interfaces with the JSON endpoints included in https://github.com/GoogleChromeLabs/chrome-for-testing
 
+### Attributions
+
+* Foundation of local version checking logic credited to Niels Swimberghe https://swimburger.net/blog/dotnet
+
 ### Chrome Version Models
 
 * KnownGoodVersions.ChromeVersionModel
