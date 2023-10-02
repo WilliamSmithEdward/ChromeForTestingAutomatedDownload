@@ -2,6 +2,10 @@
 
 Support library that interfaces with the JSON endpoints included in https://github.com/GoogleChromeLabs/chrome-for-testing
 
+### Attributions
+
+* Foundation of local version checking logic credited to Niels Swimberghe https://swimburger.net/blog/dotnet
+
 ### Chrome Version Models
 
 * KnownGoodVersions.ChromeVersionModel
@@ -36,7 +40,7 @@ public static class ChromeVersionModelFactory
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
-await AutomatedDownload.DownloadChromeDriver();
+await AutomatedDownload.DownloadChromeDriverAsync();
 ```
 
 #### Get the URL of the Most Recent Asset
@@ -51,7 +55,7 @@ var url = await result.GetMostRecentAssetURLAsync(Binary.ChromeDriver, Platform.
 Console.WriteLine(url);
 ```
 
-Get the URL of the Most Recent Asset by Major Release Number
+#### Get the URL of the Most Recent Asset by Major Release Number
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
