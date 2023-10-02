@@ -40,7 +40,11 @@ public static class ChromeVersionModelFactory
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
-await AutomatedDownload.DownloadChromeDriverAsync(Platform.Win64);
+//Will download chrome driver with platform matching the OS of the machine the .exe is running on
+await AutomatedDownload.DownloadChromeDriverAsync();
+
+//Download for a specific platform
+await AutomatedDownload.DownloadChromeDriverAsync(Platform.Linux64);
 ```
 
 #### Get the URL of the Most Recent Asset
