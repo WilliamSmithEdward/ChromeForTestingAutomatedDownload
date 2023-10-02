@@ -36,11 +36,11 @@ public static class ChromeVersionModelFactory
 
 ### Example Usage
 
-#### Download the Latest Version of ChromeDriver that Matches the Major Release Version of Chrome Installed on the Machine (Win64 Only, WIP)
+#### Download the Latest Version of ChromeDriver that Matches the Major Release Version of Chrome Installed on the Machine
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
-await AutomatedDownload.DownloadChromeDriverAsync();
+await AutomatedDownload.DownloadChromeDriverAsync(Platform.Win64);
 ```
 
 #### Get the URL of the Most Recent Asset
