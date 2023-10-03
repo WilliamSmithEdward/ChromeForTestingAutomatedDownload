@@ -9,10 +9,6 @@
   <PropertyGroup>
     <PackageReadmeFile>nugetREADME.md</PackageReadmeFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-  </ItemGroup>
 	
   <ItemGroup>
     <None Update="ChromeForTestingAutomatedDownload.png">

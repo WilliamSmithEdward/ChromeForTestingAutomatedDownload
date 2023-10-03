@@ -9,7 +9,10 @@ namespace ChromeForTestingAutomatedDownload
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                string programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                string programFilesPath = RuntimeInformation.ProcessArchitecture == Architecture.X64 ?
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) :
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+
                 string chromePath = Path.Combine(programFilesPath, "Google\\Chrome\\Application\\chrome.exe");
 
                 await Console.Out.WriteLineAsync(programFilesPath);
