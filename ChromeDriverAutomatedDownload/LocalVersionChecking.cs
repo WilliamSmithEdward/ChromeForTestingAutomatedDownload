@@ -12,6 +12,9 @@ namespace ChromeForTestingAutomatedDownload
                 string programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 string chromePath = Path.Combine(programFilesPath, "Google\\Chrome\\Application\\chrome.exe");
 
+                await Console.Out.WriteLineAsync(programFilesPath);
+                await Console.Out.WriteLineAsync(chromePath);
+
                 if (File.Exists(chromePath))
                 {
                     var fileVersionInfo = FileVersionInfo.GetVersionInfo(chromePath);
