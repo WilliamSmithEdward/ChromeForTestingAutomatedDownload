@@ -37,7 +37,7 @@ public static class ChromeVersionModelFactory
 ### Example Usage
 
 #### Download the Latest Version of ChromeDriver that Matches the Major Release Version of Chrome Installed on the Machine
-Note: Be sure to select the correct target framework, as the path checking for the local version of Chrome is dependant on it.
+Note: For windows, the logic will default to downloading the binary that matches the architecture of Chrome installed on the machine, with x64 taking priority.
 ```csharp
 using ChromeForTestingAutomatedDownload;
 
