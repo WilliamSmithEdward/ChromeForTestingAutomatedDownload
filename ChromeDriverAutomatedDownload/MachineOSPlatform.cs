@@ -9,42 +9,27 @@ namespace ChromeForTestingAutomatedDownload
             string osDescription = RuntimeInformation.OSDescription;
             Architecture processArchitecture = RuntimeInformation.ProcessArchitecture;
 
-            switch (osDescription)
+            return osDescription switch
             {
-                case var windows when windows.Contains("Windows"):
-                    switch (processArchitecture)
-                    {
-                        case Architecture.X64:
-                            return Platform.Win64;
-                        case Architecture.X86:
-                            return Platform.Win32;
-                        default:
-                            throw new Exception("Unknown Windows architecture.");
-                    }
-
-                case var linux when linux.Contains("Linux"):
-                    switch (processArchitecture)
-                    {
-                        case Architecture.X64:
-                            return Platform.Linux64;
-                        default:
-                            throw new Exception("Unknown Linux architecture.");
-                    }
-
-                case var darwin when darwin.Contains("Darwin"):
-                    switch (processArchitecture)
-                    {
-                        case Architecture.X64:
-                            return Platform.MacX64;
-                        case Architecture.Arm64:
-                            return Platform.MacArm64;
-                        default:
-                            throw new Exception("Unknown macOS architecture.");
-                    }
-
-                default:
-                    throw new Exception("Unknown operating system.");
-            }
+                var windows when windows.Contains("Windows") => processArchitecture switch
+                {
+                    Architecture.X64 => Platform.Win64,
+                    Architecture.X86 => Platform.Win32,
+                    _ => throw new Exception("Unknown Windows architecture."),
+                },
+                var linux when linux.Contains("Linux") => processArchitecture switch
+                {
+                    Architecture.X64 => Platform.Linux64,
+                    _ => throw new Exception("Unknown Linux architecture."),
+                },
+                var darwin when darwin.Contains("Darwin") => processArchitecture switch
+                {
+                    Architecture.X64 => Platform.MacX64,
+                    Architecture.Arm64 => Platform.MacArm64,
+                    _ => throw new Exception("Unknown macOS architecture."),
+                },
+                _ => throw new Exception("Unknown operating system."),
+            };
         }
     }
 }

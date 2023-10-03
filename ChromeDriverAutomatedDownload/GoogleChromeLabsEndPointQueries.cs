@@ -2,7 +2,7 @@
 {
     public class GoogleChromeLabsEndpointQueries
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = new();
 
         public static async Task<string> GetKnownGoodVersionsAsync() =>
             await _httpClient.GetStringAsync("https://googlechromelabs.github.io/chrome-for-testing/known-good-versions.json");

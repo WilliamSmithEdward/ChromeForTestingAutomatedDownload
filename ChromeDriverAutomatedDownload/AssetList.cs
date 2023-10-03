@@ -11,44 +11,40 @@
 
             var versionObject = model.GetVersionObject().Values;
 
-            switch (_binary)
+            return _binary switch
             {
-                case Binary.Chrome:
-                    return versionObject
-                        .ToDictionary(
-                            x => x.Version,
-                            x => x.Downloads.Chrome
-                                .Where(x => (x.Platform ?? string.Empty).Equals(platform))
-                                .Select(x => x.Url)
-                                .FirstOrDefault()
-                        )
-                        .Where(x => string.IsNullOrEmpty(x.Value) == false)
-                        .ToDictionary(x => x.Key ?? string.Empty, x => x.Value ?? string.Empty);
-                case Binary.ChromeDriver:
-                    return versionObject
-                        .ToDictionary(
-                            x => x.Version,
-                            x => x.Downloads.ChromeDriver
-                                .Where(x => (x.Platform ?? string.Empty).Equals(platform))
-                                .Select(x => x.Url)
-                                .FirstOrDefault()
-                        )
-                        .Where(x => string.IsNullOrEmpty(x.Value) == false)
-                        .ToDictionary(x => x.Key ?? string.Empty, x => x.Value ?? string.Empty);
-                case Binary.ChromeHeadlessShell:
-                    return versionObject
-                        .ToDictionary(
-                            x => x.Version,
-                            x => x.Downloads.ChromeHeadlessShell
-                                .Where(x => (x.Platform ?? string.Empty).Equals(platform))
-                                .Select(x => x.Url)
-                                .FirstOrDefault()
-                        )
-                        .Where(x => string.IsNullOrEmpty(x.Value) == false)
-                        .ToDictionary(x => x.Key ?? string.Empty, x => x.Value ?? string.Empty);
-                default:
-                    return null;
-            }
+                Binary.Chrome => versionObject
+                    .ToDictionary(
+                        x => x.Version,
+                        x => x.Downloads.Chrome
+                            .Where(x => (x.Platform ?? string.Empty).Equals(platform))
+                            .Select(x => x.Url)
+                            .FirstOrDefault()
+                    )
+                    .Where(x => string.IsNullOrEmpty(x.Value) == false)
+                    .ToDictionary(x => x.Key ?? string.Empty, x => x.Value ?? string.Empty),
+                Binary.ChromeDriver => versionObject
+                    .ToDictionary(
+                        x => x.Version,
+                        x => x.Downloads.ChromeDriver
+                            .Where(x => (x.Platform ?? string.Empty).Equals(platform))
+                            .Select(x => x.Url)
+                            .FirstOrDefault()
+                    )
+                    .Where(x => string.IsNullOrEmpty(x.Value) == false)
+                    .ToDictionary(x => x.Key ?? string.Empty, x => x.Value ?? string.Empty),
+                Binary.ChromeHeadlessShell => versionObject
+                    .ToDictionary(
+                        x => x.Version,
+                        x => x.Downloads.ChromeHeadlessShell
+                            .Where(x => (x.Platform ?? string.Empty).Equals(platform))
+                            .Select(x => x.Url)
+                            .FirstOrDefault()
+                    )
+                    .Where(x => string.IsNullOrEmpty(x.Value) == false)
+                    .ToDictionary(x => x.Key ?? string.Empty, x => x.Value ?? string.Empty),
+                _ => null,
+            };
         }
     }
 }

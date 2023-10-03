@@ -31,7 +31,7 @@ namespace ChromeForTestingAutomatedDownload
 
                 await stream.CopyToAsync(fileStream);
 
-                using ZipArchive archive = new ZipArchive(fileStream);
+                using var archive = new ZipArchive(fileStream);
 
                 var driver = archive.Entries.Where(x =>
                     Path.GetFileName(x.FullName).Equals("chromedriver.exe") ||
