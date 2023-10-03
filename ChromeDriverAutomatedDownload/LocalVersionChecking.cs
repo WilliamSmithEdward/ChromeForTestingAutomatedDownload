@@ -9,33 +9,26 @@ namespace ChromeForTestingAutomatedDownload
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                string programFilesPath = RuntimeInformation.ProcessArchitecture == Architecture.X64 ?
-                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) :
-                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+                var chromePathX86 = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%"), "Google\\Chrome\\Application\\chrome.exe");
+                var chromePathX64 = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramW6432%"), "Google\\Chrome\\Application\\chrome.exe");
 
-                string chromePath = Path.Combine(programFilesPath, "Google\\Chrome\\Application\\chrome.exe");
-
-                await Console.Out.WriteLineAsync(programFilesPath);
-                await Console.Out.WriteLineAsync(chromePath);
-
-                if (File.Exists(chromePath))
-                {
-                    var fileVersionInfo = FileVersionInfo.GetVersionInfo(chromePath);
-
-                    if (!string.IsNullOrEmpty(fileVersionInfo.FileVersion))
-                    {
-                        return new LocalVersion(fileVersionInfo.FileVersion);
-                    }
-
-                    else
-                    {
-                        throw new Exception("Unsupported Google Chrome configuration on this machine.");
-                    }
-                }
-                
-                else
+                if (!File.Exists(chromePathX64) && !File.Exists(chromePathX64))
                 {
                     throw new Exception("Google Chrome not found on the machine.");
+                }
+
+                var chromePath = File.Exists(chromePathX64) ? chromePathX64 : chromePathX86;
+
+                var fileVersionInfo = FileVersionInfo.GetVersionInfo(chromePath);
+
+                if (!string.IsNullOrEmpty(fileVersionInfo.FileVersion))
+                {
+                    return new LocalVersion(fileVersionInfo.FileVersion);
+                }
+
+                else
+                {
+                    throw new Exception("Unsupported Google Chrome configuration on this machine.");
                 }
             }
 

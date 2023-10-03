@@ -9,27 +9,45 @@ namespace ChromeForTestingAutomatedDownload
             string osDescription = RuntimeInformation.OSDescription;
             Architecture processArchitecture = RuntimeInformation.ProcessArchitecture;
 
-            return osDescription switch
+            if (osDescription.Contains("Windows"))
             {
-                var windows when windows.Contains("Windows") => processArchitecture switch
+                if (File.Exists(Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%"), "Google\\Chrome\\Application\\chrome.exe"))) return Platform.Win32;
+                else if (File.Exists(Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramW6432%"), "Google\\Chrome\\Application\\chrome.exe"))) return Platform.Win64;
+                else throw new Exception("Google Chrome not found on the machine.");
+            }
+
+            if (osDescription.Contains("Linux"))
+            {
+                if (processArchitecture == Architecture.X64)
                 {
-                    Architecture.X64 => Platform.Win64,
-                    Architecture.X86 => Platform.Win32,
-                    _ => throw new Exception("Unknown Windows architecture."),
-                },
-                var linux when linux.Contains("Linux") => processArchitecture switch
+                    return Platform.Linux64;
+                }
+
+                else
                 {
-                    Architecture.X64 => Platform.Linux64,
-                    _ => throw new Exception("Unknown Linux architecture."),
-                },
-                var darwin when darwin.Contains("Darwin") => processArchitecture switch
+                    throw new Exception("Unknown Linux architecture.");
+                }
+            }
+
+            if (osDescription.Contains("Darwin"))
+            {
+                if (processArchitecture == Architecture.X64)
                 {
-                    Architecture.X64 => Platform.MacX64,
-                    Architecture.Arm64 => Platform.MacArm64,
-                    _ => throw new Exception("Unknown macOS architecture."),
-                },
-                _ => throw new Exception("Unknown operating system."),
-            };
+                    return Platform.MacX64;
+                }
+
+                else if (processArchitecture == Architecture.Arm64)
+                {
+                    return Platform.MacArm64;
+                }
+
+                else
+                {
+                    throw new Exception("Unknown macOS architecture.");
+                }
+            }
+
+            throw new Exception("Unknown OS platform.");
         }
     }
 }
