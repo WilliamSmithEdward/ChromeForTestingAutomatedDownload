@@ -11,22 +11,23 @@
   </PropertyGroup>
 	
   <ItemGroup>
-    <None Update="ChromeForTestingAutomatedDownload.png">
+    <None Include="ChromeForTestingAutomatedDownload.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="nugetREADME.md">
+    <None Include="nugetREADME.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 	
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <Title>Chrome for Testing Automated Download</Title>
     <Authors>WilliamSmithE</Authors>
     <Copyright>William Smith (WilliamSmithE)</Copyright>
