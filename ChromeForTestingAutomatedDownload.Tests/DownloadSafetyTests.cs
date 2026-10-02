@@ -163,10 +163,32 @@ public class DownloadSafetyTests
             .ServeFixture(Fixtures.Milestones)
             .Serve(Fixtures.DriverUrl(Version, "win64"), Fixtures.Zip(("readme.txt", "no driver")))
             .Client();
-        var before = Directory.GetFiles(Path.GetTempPath(), "cft-chromedriver-*");
+        // A temporary folder of the test's own, since test processes for the other target
+        // frameworks download into the shared system temp folder at the same time.
+        var temporary = Path.Combine(folder.Root, "tmp");
+        Directory.CreateDirectory(temporary);
 
-        await Assert.ThrowsAsync<InvalidDataException>(() => Download(client, folder.Download));
+        await Assert.ThrowsAsync<InvalidDataException>(() => AutomatedDownload.DownloadChromeDriverAsync(
+            Platform.Win64, 120, folder.Download, client, temporary, TestContext.Current.CancellationToken));
 
-        Assert.Equal(before, Directory.GetFiles(Path.GetTempPath(), "cft-chromedriver-*"));
+        Assert.Empty(Directory.GetFiles(temporary));
+        Assert.Empty(Directory.GetFiles(folder.Download));
+    }
+
+    [Fact]
+    public async Task The_temporary_ZIP_file_is_deleted_after_a_download()
+    {
+        using var folder = new TempFolder();
+        using var client = new FakeHttpHandler()
+            .ServeFixture(Fixtures.Milestones)
+            .Serve(Fixtures.DriverUrl(Version, "win64"), DriverZip)
+            .Client();
+        var temporary = Path.Combine(folder.Root, "tmp");
+        Directory.CreateDirectory(temporary);
+
+        await AutomatedDownload.DownloadChromeDriverAsync(
+            Platform.Win64, 120, folder.Download, client, temporary, TestContext.Current.CancellationToken);
+
+        Assert.Empty(Directory.GetFiles(temporary));
     }
 }
