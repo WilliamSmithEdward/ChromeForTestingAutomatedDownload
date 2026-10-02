@@ -11,6 +11,10 @@
 
         internal const string BaseUrl = "https://googlechromelabs.github.io/chrome-for-testing/";
 
+        // The one client the library's own requests share, so a download does not open a new
+        // connection pool each time.
+        internal static HttpClient SharedClient => _httpClient;
+
         internal static async Task<string> GetStringAsync(HttpClient httpClient, string endpoint, CancellationToken cancellationToken) =>
             await httpClient.GetStringAsync(BaseUrl + endpoint, cancellationToken);
 
