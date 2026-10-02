@@ -226,7 +226,15 @@ var local = await LocalVersionChecking.GetChromeVersion();
 Console.WriteLine($"{local.VersionString} (major {local.MajorReleaseNumber}) on {MachineOSPlatform.GetPlatform()}");
 ```
 
-Errors from detection and version checking are thrown as `Exception` or, on an unsupported operating system, `PlatformNotSupportedException`.
+Errors from detection and version checking:
+
+| Exception | When |
+|---|---|
+| `PlatformNotSupportedException` | The operating system, or the processor on Linux or macOS, is not one Chrome for Testing serves. |
+| `FileNotFoundException` | Chrome is not installed where the library looks. |
+| `InvalidOperationException` | Chrome's version could not be read: the command could not start, exited with a code other than 0, or timed out (a `TimeoutException` inside), or Windows reports no file version. |
+
+All three are `Exception`s, so code that catches `Exception` still catches them. `DownloadChromeDriverAsync` without a milestone passes them on.
 
 ---
 

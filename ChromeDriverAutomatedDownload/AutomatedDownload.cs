@@ -30,7 +30,8 @@ namespace ChromeForTestingAutomatedDownload
         /// <param name="platform">The platform to download for. The version still comes from the Chrome installed on this machine.</param>
         /// <param name="downloadPath">An existing folder to write to. Empty or white space means <see cref="AppDomain.BaseDirectory"/> of the current domain.</param>
         /// <returns>A task that completes when chromedriver has been extracted.</returns>
-        /// <exception cref="Exception">Chrome was not found or its version could not be read.</exception>
+        /// <exception cref="FileNotFoundException">Chrome was not found.</exception>
+        /// <exception cref="InvalidOperationException">Chrome's version could not be read.</exception>
         public static async Task DownloadChromeDriverAsync(Platform platform, string downloadPath = "")
         {
             var localMajorRelease = (await LocalVersionChecking.GetChromeVersion()).MajorReleaseNumber;

@@ -20,7 +20,8 @@ namespace ChromeForTestingAutomatedDownload
         /// within 30 seconds is stopped. Nothing the library downloads is run.
         /// </summary>
         /// <returns>The local version.</returns>
-        /// <exception cref="Exception">Chrome was not found, its version could not be read, or the command failed, exited with a code other than 0 or timed out.</exception>
+        /// <exception cref="FileNotFoundException">Chrome was not found.</exception>
+        /// <exception cref="InvalidOperationException">Chrome's version could not be read, or the command could not start, exited with a code other than 0 or timed out (the inner exception says which).</exception>
         /// <exception cref="PlatformNotSupportedException">The operating system is not Windows, Linux or macOS.</exception>
         public static async Task<LocalVersion> GetChromeVersion()
         {
@@ -37,7 +38,7 @@ namespace ChromeForTestingAutomatedDownload
 
                 else
                 {
-                    throw new Exception("Unsupported Google Chrome configuration on this machine.");
+                    throw new InvalidOperationException("Unsupported Google Chrome configuration on this machine.");
                 }
             }
 
@@ -48,7 +49,7 @@ namespace ChromeForTestingAutomatedDownload
                     AppContext.BaseDirectory,
                     Environment.CurrentDirectory,
                     File.Exists)
-                    ?? throw new Exception("Google Chrome not found on the machine: no google-chrome in an absolute folder on PATH.");
+                    ?? throw new FileNotFoundException("Google Chrome not found on the machine: no google-chrome in an absolute folder on PATH.");
 
                 try
                 {
@@ -57,7 +58,7 @@ namespace ChromeForTestingAutomatedDownload
 
                 catch (Exception ex)
                 {
-                    throw new Exception($"An error occurred trying to execute '{command} --product-version'", ex);
+                    throw new InvalidOperationException($"An error occurred trying to execute '{command} --product-version'", ex);
                 }
             }
 
@@ -70,7 +71,7 @@ namespace ChromeForTestingAutomatedDownload
 
                 catch (Exception ex)
                 {
-                    throw new Exception($"An error occurred trying to execute '{MacChrome} --version'", ex);
+                    throw new InvalidOperationException($"An error occurred trying to execute '{MacChrome} --version'", ex);
                 }
             }
 
@@ -94,7 +95,7 @@ namespace ChromeForTestingAutomatedDownload
                 .Select(WindowsChromePath);
 
             return candidates.FirstOrDefault(exists)
-                ?? throw new Exception("Google Chrome not found on the machine.");
+                ?? throw new FileNotFoundException("Google Chrome not found on the machine.");
         }
 
         // The google-chrome that is run: the first one in an absolute PATH folder. A bare file name would
@@ -124,7 +125,7 @@ namespace ChromeForTestingAutomatedDownload
         {
             if (exitCode != 0)
             {
-                throw new Exception($"The command exited with code {exitCode}: {error.Trim()}");
+                throw new InvalidOperationException($"The command exited with code {exitCode}: {error.Trim()}");
             }
 
             return output;
@@ -142,7 +143,7 @@ namespace ChromeForTestingAutomatedDownload
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                 }
-            ) ?? throw new Exception($"Could not start '{fileName}'.");
+            ) ?? throw new InvalidOperationException($"Could not start '{fileName}'.");
 
             // Both streams are read at once, so a full error pipe cannot stall the output.
             var output = process.StandardOutput.ReadToEndAsync();
