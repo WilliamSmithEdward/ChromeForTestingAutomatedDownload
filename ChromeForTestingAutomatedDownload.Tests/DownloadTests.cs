@@ -2,6 +2,7 @@ using System.Net;
 
 namespace ChromeForTestingAutomatedDownload.Tests;
 
+[Collection("downloads")]
 public class DownloadTests
 {
     private const string Version120 = "120.0.6099.109";

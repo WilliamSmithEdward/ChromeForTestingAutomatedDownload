@@ -29,11 +29,12 @@ reaches, reads, writes and runs:
   chromedriver ZIP file from the URL that JSON gives (today on
   `storage.googleapis.com`).
 - **Files written.** Only `DownloadChromeDriverAsync` writes: the ZIP file,
-  under the file name the URL ends with, and the chromedriver entry
-  extracted from it, both into the caller's folder or, by default, the
-  application's base directory. Both replace an existing file of the same
-  name. ZIP entry paths are not used; only the file name `chromedriver` or
-  `chromedriver.exe` is.
+  to a temporary file of its own that is deleted when it is closed, and the
+  chromedriver entry extracted from it, into the caller's folder or, by
+  default, the application's base directory, replacing an existing
+  chromedriver. An entry whose path is absolute, names a drive or climbs
+  with `..` is refused; otherwise only its file name, `chromedriver` or
+  `chromedriver.exe`, is used.
 - **Files read and processes started.** `LocalVersionChecking` reads the
   file version of `chrome.exe` under Program Files on Windows and runs
   nothing there. On Linux it runs `google-chrome --product-version`, which
@@ -43,14 +44,14 @@ reaches, reads, writes and runs:
   `DownloadChromeDriverAsync` calls it. Nothing the library downloads is
   run by the library.
 
-The library trusts the Chrome for Testing JSON as it is served over HTTPS:
-it does not check a download URL's scheme or host, and Chrome for Testing
-publishes no checksums to verify a download against. These count as
-vulnerabilities:
+The library trusts the Chrome for Testing JSON as it is served over HTTPS.
+It requires the download URL to be absolute HTTPS but does not restrict its
+host, and Chrome for Testing publishes no checksums to verify a download
+against. These count as vulnerabilities:
 
 - a JSON response or download that makes the library write outside the
-  download folder, or write anything there other than the ZIP file and the
-  chromedriver extracted from it;
+  download folder or its own temporary ZIP file, or write anything in the
+  folder other than the chromedriver extracted from the ZIP file;
 - anything that makes the library run a program other than the Chrome
   version commands above, or run what it downloaded;
 - a request the library makes to anything other than the endpoints above
@@ -62,9 +63,8 @@ own; report it as an issue.
 ### Choosing the download folder
 
 Pass a folder of your own to `DownloadChromeDriverAsync` rather than relying
-on the default, the application's base directory, so the download cannot
-replace a file your application ships. Delete the ZIP file afterwards if you
-do not need it.
+on the default, the application's base directory, so a chromedriver your
+application ships is not replaced by surprise.
 
 ### Running the version check on Linux
 

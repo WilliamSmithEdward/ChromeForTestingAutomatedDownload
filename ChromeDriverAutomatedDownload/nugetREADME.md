@@ -35,20 +35,20 @@ string driver = await AutomatedDownload.DownloadChromeDriverAsync(Platform.Linux
 
 1. Works out the platform with `MachineOSPlatform.GetPlatform()`, unless you pass one (see "Platform detection" below).
 2. Reads the major version of the installed Chrome with `LocalVersionChecking.GetChromeVersion()` (see "Local Chrome version" below). Chrome must be installed even when you pass a platform, and its major version is used for that platform too.
-3. Reads `latest-versions-per-milestone-with-downloads.json` and takes the chromedriver URL for that milestone and platform.
-4. Downloads the ZIP file with a new `HttpClient` (default 100 second timeout) and saves it in the download folder under the file name at the end of the URL, for example `chromedriver-win64.zip`.
-5. Extracts the first entry named `chromedriver.exe` or `chromedriver` into the same folder, without its subfolder.
+3. Reads `latest-versions-per-milestone-with-downloads.json` and takes the chromedriver URL for that milestone and platform. The URL must be absolute HTTPS.
+4. Downloads the ZIP file into a temporary file of its own, which is deleted afterwards, whether or not the rest succeeds.
+5. Extracts the first entry named `chromedriver.exe` or `chromedriver` into the download folder, without its subfolder.
 
-The overload that takes a milestone skips steps 1 and 2 and sends both requests with the `HttpClient` you pass, which it does not dispose.
+The methods without an `HttpClient` use one client the library shares (default 100 second timeout). The overload that takes a milestone skips steps 1 and 2 and sends both requests with the `HttpClient` you pass, which it does not dispose.
 
 Things to know before you use it:
 
-- The download folder defaults to `AppDomain.CurrentDomain.BaseDirectory`, the folder your application runs from. Pass a folder of your own to keep downloads out of it. The folder must already exist.
-- An existing file with the ZIP's name is replaced, and so is an existing chromedriver. On Windows, replacing a chromedriver.exe that is still running fails with an `IOException`.
-- The ZIP file stays in the folder after extraction. Delete it yourself if you do not want it.
-- Nothing is verified beyond HTTPS: Chrome for Testing publishes no checksums, and the library does not check the URL's host or scheme, or the file name it takes from the URL.
-- Chrome for Testing has chromedriver from milestone 115. For an older Chrome, or a milestone the endpoint does not list yet, there is no URL and the download fails with an `InvalidOperationException` ("An invalid request URI was provided").
-- A response that is not a success status throws `Exception` ("Failed to download file. Status code: ..."). A ZIP without a chromedriver entry throws `InvalidOperationException`.
+- The download folder defaults to `AppDomain.CurrentDomain.BaseDirectory`, the folder your application runs from. Pass a folder of your own to keep downloads out of it. The folder must already exist (`DirectoryNotFoundException` otherwise).
+- Only chromedriver is written to the folder. An existing chromedriver is replaced; on Windows, replacing a chromedriver.exe that is still running fails with an `IOException`.
+- Chrome for Testing publishes no checksums for its downloads, so nothing is verified beyond HTTPS.
+- The ZIP entry is refused, with `InvalidDataException`, if its path is absolute, names a drive or climbs out of its folder with `..`. So is a download that is not a ZIP file, or one without a chromedriver entry.
+- Chrome for Testing has chromedriver from milestone 115. For an older Chrome, or a milestone the endpoint does not list yet, the download throws `InvalidOperationException` naming the milestone and platform.
+- A response that is not a success status throws `HttpRequestException` with the status code.
 
 Only chromedriver has a download helper. For Chrome and chrome-headless-shell, look up the URL as below and download it with your own code.
 
