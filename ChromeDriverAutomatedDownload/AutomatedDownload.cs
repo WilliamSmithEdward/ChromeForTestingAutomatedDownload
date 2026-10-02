@@ -35,25 +35,54 @@ namespace ChromeForTestingAutomatedDownload
         /// <exception cref="HttpRequestException">An endpoint or the download could not be reached.</exception>
         public static async Task DownloadChromeDriverAsync(Platform platform, string downloadPath = "")
         {
-            if (string.IsNullOrWhiteSpace(downloadPath)) downloadPath = AppDomain.CurrentDomain.BaseDirectory;
-
             var localMajorRelease = (await LocalVersionChecking.GetChromeVersion()).MajorReleaseNumber;
-
-            var model = await ChromeVersionModelFactory.CreateChromeVersionModelAsync<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>();
-
-            var url = await model.GetMostRecentAssetURLByMajorReleaseNumberAsync(Binary.ChromeDriver, platform, localMajorRelease);
 
             using var httpClient = new HttpClient();
 
-            var response = await httpClient.GetAsync(url);
+            await DownloadChromeDriverAsync(platform, localMajorRelease, downloadPath, httpClient);
+        }
+
+        /// <summary>
+        /// Downloads the chromedriver for a given milestone and platform with <paramref name="httpClient"/>, without
+        /// looking at the Chrome installed on this machine. Otherwise the same as
+        /// <see cref="DownloadChromeDriverAsync(Platform, string)"/>: it reads
+        /// latest-versions-per-milestone-with-downloads.json, saves the ZIP file in <paramref name="downloadPath"/>
+        /// under the file name at the end of the URL, and extracts the first entry named chromedriver.exe or
+        /// chromedriver into the same folder.
+        /// </summary>
+        /// <param name="platform">The platform to download for.</param>
+        /// <param name="majorReleaseNumber">The milestone, such as 120.</param>
+        /// <param name="downloadPath">An existing folder to write to. Empty or white space means <see cref="AppDomain.BaseDirectory"/> of the current domain.</param>
+        /// <param name="httpClient">The client for the endpoint and the download. It is not disposed.</param>
+        /// <param name="cancellationToken">Cancels the requests.</param>
+        /// <returns>The full path of the extracted chromedriver.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="httpClient"/> is null.</exception>
+        /// <exception cref="Exception">The download returned a status code that is not a success.</exception>
+        /// <exception cref="InvalidOperationException">The endpoint has no chromedriver for the milestone and platform, or the ZIP file has no chromedriver entry.</exception>
+        /// <exception cref="HttpRequestException">The endpoint or the download could not be reached.</exception>
+        public static async Task<string> DownloadChromeDriverAsync(Platform platform, int majorReleaseNumber, string downloadPath, HttpClient httpClient, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(httpClient);
+
+            if (string.IsNullOrWhiteSpace(downloadPath)) downloadPath = AppDomain.CurrentDomain.BaseDirectory;
+
+            var model = await ChromeVersionModelFactory.CreateChromeVersionModelAsync<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>(httpClient, cancellationToken);
+
+            var url = AssetList.FromModel(model, Binary.ChromeDriver, platform)?
+                .OrderByDescending(x => x.Key)
+                .Where(x => x.Key.Split('.')[0].Equals(majorReleaseNumber.ToString()))
+                .FirstOrDefault()
+                .Value;
+
+            var response = await httpClient.GetAsync(url, cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
-                using var stream = await response.Content.ReadAsStreamAsync();
+                using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
 
                 using var fileStream = File.Create(Path.Combine(downloadPath, Path.GetFileName(url) ?? string.Empty));
 
-                await stream.CopyToAsync(fileStream);
+                await stream.CopyToAsync(fileStream, cancellationToken);
 
                 using var archive = new ZipArchive(fileStream);
 
@@ -62,7 +91,11 @@ namespace ChromeForTestingAutomatedDownload
                     Path.GetFileName(x.FullName).Equals("chromedriver"))
                 .First();
 
-                await Task.Run(() => driver.ExtractToFile(Path.Combine(downloadPath, Path.GetFileName(driver.FullName)), true));
+                var driverPath = Path.Combine(downloadPath, Path.GetFileName(driver.FullName));
+
+                await Task.Run(() => driver.ExtractToFile(driverPath, true), cancellationToken);
+
+                return driverPath;
             }
 
             else

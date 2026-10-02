@@ -9,6 +9,11 @@
     {
         private static readonly HttpClient _httpClient = new();
 
+        internal const string BaseUrl = "https://googlechromelabs.github.io/chrome-for-testing/";
+
+        internal static async Task<string> GetStringAsync(HttpClient httpClient, string endpoint, CancellationToken cancellationToken) =>
+            await httpClient.GetStringAsync(BaseUrl + endpoint, cancellationToken);
+
         /// <summary>Reads known-good-versions.json.</summary>
         /// <returns>The JSON response.</returns>
         public static async Task<string> GetKnownGoodVersionsAsync() =>

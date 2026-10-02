@@ -24,6 +24,11 @@ await AutomatedDownload.DownloadChromeDriverAsync(@"C:\tools\chromedriver");
 
 // For a given platform. The version still comes from the Chrome installed here.
 await AutomatedDownload.DownloadChromeDriverAsync(Platform.Win64, @"C:\tools\chromedriver");
+
+// For a given milestone and platform, with your own HttpClient, without looking
+// at the local Chrome. Returns the full path of the extracted chromedriver.
+using var httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(5) };
+string driver = await AutomatedDownload.DownloadChromeDriverAsync(Platform.Linux64, 120, "/opt/chromedriver", httpClient);
 ```
 
 `DownloadChromeDriverAsync` does this, in order:
@@ -33,6 +38,8 @@ await AutomatedDownload.DownloadChromeDriverAsync(Platform.Win64, @"C:\tools\chr
 3. Reads `latest-versions-per-milestone-with-downloads.json` and takes the chromedriver URL for that milestone and platform.
 4. Downloads the ZIP file with a new `HttpClient` (default 100 second timeout) and saves it in the download folder under the file name at the end of the URL, for example `chromedriver-win64.zip`.
 5. Extracts the first entry named `chromedriver.exe` or `chromedriver` into the same folder, without its subfolder.
+
+The overload that takes a milestone skips steps 1 and 2 and sends both requests with the `HttpClient` you pass, which it does not dispose.
 
 Things to know before you use it:
 
@@ -144,7 +151,7 @@ foreach (var (milestone, entry) in result.Milestones)
 
 ## The models
 
-`ChromeVersionModelFactory.CreateChromeVersionModelAsync<T>()` reads one endpoint and deserializes it into `T`. It throws `HttpRequestException` if the request fails and `JsonException` if the response cannot be read. Each model class sits inside a class named after its endpoint:
+`ChromeVersionModelFactory.CreateChromeVersionModelAsync<T>()` reads one endpoint and deserializes it into `T`. It throws `HttpRequestException` if the request fails and `JsonException` if the response cannot be read. The overload `CreateChromeVersionModelAsync<T>(httpClient, cancellationToken)` sends the request with your `HttpClient`, for your own timeout, proxy or handler; it accepts only the eight models below. Each model class sits inside a class named after its endpoint:
 
 | Model | Endpoint under `https://googlechromelabs.github.io/chrome-for-testing/` | Main property |
 |---|---|---|

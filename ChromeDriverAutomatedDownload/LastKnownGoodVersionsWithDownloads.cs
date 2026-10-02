@@ -5,7 +5,7 @@ namespace ChromeForTestingAutomatedDownload
     /// <summary>Model of last-known-good-versions-with-downloads.json. The type to deserialize is the nested <see cref="ChromeVersionModel"/>.</summary>
     public class LastKnownGoodVersionsWithDownloads
     {
-        /// <summary>The content of last-known-good-versions-with-downloads.json. Create it with <see cref="ChromeVersionModelFactory.CreateChromeVersionModelAsync{T}"/>.</summary>
+        /// <summary>The content of last-known-good-versions-with-downloads.json. Create it with <see cref="ChromeVersionModelFactory"/>.</summary>
         public class ChromeVersionModel : IChromeVersionModel
         {
             /// <summary>Reads last-known-good-versions-with-downloads.json. <see cref="ChromeVersionModelFactory"/> uses the default value of a new instance, so setting this does not change what the factory reads.</summary>
