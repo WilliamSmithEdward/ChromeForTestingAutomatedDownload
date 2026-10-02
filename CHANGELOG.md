@@ -1,0 +1,63 @@
+# Changelog
+
+Each release's notes. The Publish workflow takes the section for the
+version it releases as the GitHub release's body, so a section is written
+here before the version is tagged.
+
+The sections up to 1.1.3 were gathered from the nuget.org version history,
+with the UTC date the nuget.org catalog records for each upload. Neither
+nuget.org nor the READMEs carried release notes for them. Versions 1.0.0 to
+1.1.2 are unlisted on nuget.org; 1.1.3 is the listed version. All of them
+target net7.0.
+
+## [1.1.3] - 2023-10-03
+
+No notes were recorded.
+
+## [1.1.2] - 2023-10-02
+
+No notes were recorded.
+
+## [1.1.1] - 2023-10-01
+
+No notes were recorded.
+
+## [1.1.0] - 2023-10-01
+
+No notes were recorded.
+
+## [1.0.8] - 2023-09-28
+
+No notes were recorded.
+
+## [1.0.7] - 2023-09-22
+
+No notes were recorded.
+
+## [1.0.6] - 2023-09-22
+
+No notes were recorded.
+
+## [1.0.5] - 2023-09-22
+
+No notes were recorded.
+
+## [1.0.4] - 2023-09-21
+
+No notes were recorded.
+
+## [1.0.3] - 2023-09-21
+
+No notes were recorded.
+
+## [1.0.2] - 2023-09-21
+
+No notes were recorded.
+
+## [1.0.1] - 2023-09-21
+
+No notes were recorded.
+
+## [1.0.0] - 2023-08-28
+
+No notes were recorded.
