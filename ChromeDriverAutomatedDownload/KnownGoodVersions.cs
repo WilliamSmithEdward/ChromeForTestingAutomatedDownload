@@ -9,6 +9,7 @@ namespace ChromeForTestingAutomatedDownload
         public class ChromeVersionModel : IChromeVersionModel
         {
             /// <summary>Reads known-good-versions.json. <see cref="ChromeVersionModelFactory"/> uses the default value of a new instance, so setting this does not change what the factory reads.</summary>
+            [JsonIgnore]
             public Func<Task<string>> QueryEndpointAsync { get; set; } = GoogleChromeLabsEndpointQueries.GetKnownGoodVersionsAsync;
 
             /// <summary>Every version in the endpoint, oldest first.</summary>

@@ -9,6 +9,7 @@ namespace ChromeForTestingAutomatedDownload
         public class ChromeVersionModel : IChromeVersionModel, IDownload
         {
             /// <summary>Reads latest-versions-per-milestone-with-downloads.json. <see cref="ChromeVersionModelFactory"/> uses the default value of a new instance, so setting this does not change what the factory reads.</summary>
+            [JsonIgnore]
             public Func<Task<string>> QueryEndpointAsync { get; set; } = GoogleChromeLabsEndpointQueries.GetLatestVersionsPerMilestoneWithDownloadAsync;
 
             /// <inheritdoc/>
@@ -18,39 +19,31 @@ namespace ChromeForTestingAutomatedDownload
             }
 
             /// <inheritdoc/>
-            public async Task<string?> GetMostRecentAssetURLAsync(Binary binary, Platform platform)
+            /// <remarks>Answers from this model's milestones; nothing is read from the network.</remarks>
+            public Task<string?> GetMostRecentAssetURLAsync(Binary binary, Platform platform)
             {
-                var platformList = await AssetList.GetAssetListAsync<ChromeVersionModel>(binary, platform);
-
-                return platformList?
-                    .OrderByDescending(x => x.Key)
-                    .FirstOrDefault()
-                    .Value;
+                return Task.FromResult(AssetList.NewestFirst(AssetList.FromModel(this, binary, platform))
+                    .Select(x => (string?)x.Value)
+                    .FirstOrDefault());
             }
 
             /// <inheritdoc/>
-            public async Task<string?> GetMostRecentAssetURLByMajorReleaseNumberAsync(Binary binary, Platform platform, int majorReleaseNumber)
+            /// <remarks>Answers from this model's milestones; nothing is read from the network.</remarks>
+            public Task<string?> GetMostRecentAssetURLByMajorReleaseNumberAsync(Binary binary, Platform platform, int majorReleaseNumber)
             {
-                var platformList = await AssetList.GetAssetListAsync<ChromeVersionModel>(binary, platform);
-
-                if (platformList == null) return null;
-
-                return platformList?
-                    .OrderByDescending(x => x.Key)
+                return Task.FromResult(AssetList.NewestFirst(AssetList.FromModel(this, binary, platform))
                     .Where(x => x.Key.Split('.')[0].Equals(majorReleaseNumber.ToString()))
-                    .FirstOrDefault()
-                    .Value;
+                    .Select(x => (string?)x.Value)
+                    .FirstOrDefault());
             }
 
             /// <inheritdoc/>
-            public async Task<string?> GetAssetURLByFullVersionNumberAsync(Binary binary, Platform platform, string fullVersionNumber)
+            /// <remarks>Answers from this model's milestones; nothing is read from the network.</remarks>
+            public Task<string?> GetAssetURLByFullVersionNumberAsync(Binary binary, Platform platform, string fullVersionNumber)
             {
-                var platformList = await AssetList.GetAssetListAsync<ChromeVersionModel>(binary, platform);
+                var platformList = AssetList.FromModel(this, binary, platform);
 
-                return platformList?
-                    .Where(x => x.Key.Equals(fullVersionNumber))
-                    .FirstOrDefault()
-                    .Value;
+                return Task.FromResult(platformList != null && platformList.TryGetValue(fullVersionNumber, out var url) ? url : null);
             }
 
             /// <summary>When the endpoint was generated, in UTC.</summary>

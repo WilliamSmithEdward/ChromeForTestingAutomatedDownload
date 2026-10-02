@@ -69,11 +69,7 @@ namespace ChromeForTestingAutomatedDownload
 
             var model = await ChromeVersionModelFactory.CreateChromeVersionModelAsync<LatestVersionsPerMilestoneWithDownload.ChromeVersionModel>(httpClient, cancellationToken);
 
-            var url = AssetList.FromModel(model, Binary.ChromeDriver, platform)?
-                .OrderByDescending(x => x.Key)
-                .Where(x => x.Key.Split('.')[0].Equals(majorReleaseNumber.ToString()))
-                .FirstOrDefault()
-                .Value;
+            var url = await model.GetMostRecentAssetURLByMajorReleaseNumberAsync(Binary.ChromeDriver, platform, majorReleaseNumber);
 
             if (string.IsNullOrEmpty(url))
             {
