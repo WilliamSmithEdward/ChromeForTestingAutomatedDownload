@@ -14,7 +14,7 @@ namespace ChromeForTestingAutomatedDownload
         /// returns <see cref="Platform.MacX64"/> or <see cref="Platform.MacArm64"/> by the process architecture.
         /// </summary>
         /// <returns>The platform.</returns>
-        /// <exception cref="Exception">The operating system or architecture is not one of the above.</exception>
+        /// <exception cref="PlatformNotSupportedException">The operating system or architecture is not one of the above.</exception>
         public static Platform GetPlatform() =>
             Detect(RuntimeInformation.OSDescription, RuntimeInformation.ProcessArchitecture, Environment.Is64BitOperatingSystem);
 
@@ -41,7 +41,7 @@ namespace ChromeForTestingAutomatedDownload
 
                 else
                 {
-                    throw new Exception("Unknown Linux architecture.");
+                    throw new PlatformNotSupportedException("Unknown Linux architecture.");
                 }
             }
 
@@ -59,11 +59,11 @@ namespace ChromeForTestingAutomatedDownload
 
                 else
                 {
-                    throw new Exception("Unknown macOS architecture.");
+                    throw new PlatformNotSupportedException("Unknown macOS architecture.");
                 }
             }
 
-            throw new Exception("Unknown OS platform.");
+            throw new PlatformNotSupportedException("Unknown OS platform.");
         }
     }
 }
