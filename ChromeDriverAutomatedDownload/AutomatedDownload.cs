@@ -130,9 +130,11 @@ namespace ChromeForTestingAutomatedDownload
             }
 
             var root = Path.GetFullPath(folder);
-            var destination = Path.GetFullPath(Path.Combine(root, segments[^1]));
+            if (!Path.EndsInDirectorySeparator(root)) root += Path.DirectorySeparatorChar;
 
-            if (Path.GetRelativePath(root, destination) != segments[^1])
+            var destination = Path.GetFullPath(Path.Combine(root, Path.GetFileName(normalized)));
+
+            if (!destination.StartsWith(root, StringComparison.Ordinal) || Path.GetRelativePath(root, destination) != segments[^1])
             {
                 throw new InvalidDataException($"The ZIP entry {entryName} leaves the folder it is extracted to.");
             }
