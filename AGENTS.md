@@ -63,11 +63,15 @@ net10.0. What an agent working here must not break:
   net10.0, and CI checks the package holds each one's dll and XML docs.
   Change the list only on the owner's decision, and update `ci.yml`,
   `publish.yml` and the READMEs with it.
-- **No tests yet.** CI checks that the library builds for all three target
-  frameworks with no warnings, so every public member needs an XML doc
-  comment, and that the package holds `nugetREADME.md` and the icon. The
-  README samples are the only examples: compile a changed sample against the
-  library before committing it.
+- **Tests.** `ChromeForTestingAutomatedDownload.Tests` is an xUnit v3
+  project run by Microsoft.Testing.Platform (`global.json` opts `dotnet test`
+  in), on net8.0, net9.0 and net10.0. Tests never touch the network: every
+  request goes through `FakeHttpHandler`, which answers from `Fixtures/` and
+  refuses any other URL, and ZIP files are built in the test. They write only
+  into a `TempFolder` under the system temp folder. CI runs them with
+  `--fail-skips on`. A fix comes with a test that fails without it. CI also
+  builds with no warnings, so every public member needs an XML doc comment.
+  Compile a changed README sample against the library before committing it.
 - **Nothing downloads into or runs from the working tree.** The library
   downloads chromedriver and runs the local Chrome to read its version. No
   test, sample run, workflow or script in this repository may download

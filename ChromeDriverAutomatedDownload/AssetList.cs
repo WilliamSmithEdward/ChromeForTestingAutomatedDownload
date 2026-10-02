@@ -15,22 +15,28 @@
         /// <returns>The map, which is empty when no version has the binary on the platform, or <see langword="null"/> for a <see cref="Binary"/> value outside the enum.</returns>
         /// <exception cref="HttpRequestException">The endpoint could not be read.</exception>
         /// <exception cref="System.Text.Json.JsonException">The response could not be deserialized.</exception>
-        public static async Task<Dictionary<string, string>?> GetAssetListAsync<T>(Binary _binary, Platform _platform) 
+        public static async Task<Dictionary<string, string>?> GetAssetListAsync<T>(Binary _binary, Platform _platform)
             where T : IChromeVersionModel, IDownload, new()
         {
-            string platform = PlatformString.GetPlatformString(_platform) ?? string.Empty;
-
             var model = await ChromeVersionModelFactory.CreateChromeVersionModelAsync<T>();
+
+            return FromModel(model, _binary, _platform);
+        }
+
+        // The map for a model already read.
+        internal static Dictionary<string, string>? FromModel(IDownload model, Binary binary, Platform platform)
+        {
+            string platformString = PlatformString.GetPlatformString(platform) ?? string.Empty;
 
             var versionObject = model.GetVersionObject().Values;
 
-            return _binary switch
+            return binary switch
             {
                 Binary.Chrome => versionObject
                     .ToDictionary(
                         x => x.Version,
                         x => x.Downloads.Chrome
-                            .Where(x => (x.Platform ?? string.Empty).Equals(platform))
+                            .Where(x => (x.Platform ?? string.Empty).Equals(platformString))
                             .Select(x => x.Url)
                             .FirstOrDefault()
                     )
@@ -40,7 +46,7 @@
                     .ToDictionary(
                         x => x.Version,
                         x => x.Downloads.ChromeDriver
-                            .Where(x => (x.Platform ?? string.Empty).Equals(platform))
+                            .Where(x => (x.Platform ?? string.Empty).Equals(platformString))
                             .Select(x => x.Url)
                             .FirstOrDefault()
                     )
@@ -50,7 +56,7 @@
                     .ToDictionary(
                         x => x.Version,
                         x => x.Downloads.ChromeHeadlessShell
-                            .Where(x => (x.Platform ?? string.Empty).Equals(platform))
+                            .Where(x => (x.Platform ?? string.Empty).Equals(platformString))
                             .Select(x => x.Url)
                             .FirstOrDefault()
                     )

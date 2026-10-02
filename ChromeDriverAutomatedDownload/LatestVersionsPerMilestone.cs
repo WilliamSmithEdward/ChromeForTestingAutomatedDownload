@@ -5,7 +5,7 @@ namespace ChromeForTestingAutomatedDownload
     /// <summary>Model of latest-versions-per-milestone.json. The type to deserialize is the nested <see cref="ChromeVersionModel"/>.</summary>
     public class LatestVersionsPerMilestone
     {
-        /// <summary>The content of latest-versions-per-milestone.json. Create it with <see cref="ChromeVersionModelFactory.CreateChromeVersionModelAsync{T}"/>.</summary>
+        /// <summary>The content of latest-versions-per-milestone.json. Create it with <see cref="ChromeVersionModelFactory"/>.</summary>
         public class ChromeVersionModel : IChromeVersionModel
         {
             /// <summary>Reads latest-versions-per-milestone.json. <see cref="ChromeVersionModelFactory"/> uses the default value of a new instance, so setting this does not change what the factory reads.</summary>
