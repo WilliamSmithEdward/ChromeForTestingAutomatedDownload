@@ -23,6 +23,16 @@
             return FromModel(model, _binary, _platform);
         }
 
+        // The map's entries, highest version first, comparing each dotted part as a number, so
+        // 1000.0.0.0 comes before 999.0.0.0 and 120.0.6099.109 before 120.0.6099.99. A key that
+        // is not a version goes last.
+        internal static IEnumerable<KeyValuePair<string, string>> NewestFirst(Dictionary<string, string>? assets)
+        {
+            return (assets ?? new Dictionary<string, string>())
+                .OrderByDescending(x => Version.TryParse(x.Key, out var version) ? version : new Version(0, 0))
+                .ThenByDescending(x => x.Key, StringComparer.Ordinal);
+        }
+
         // The map for a model already read.
         internal static Dictionary<string, string>? FromModel(IDownload model, Binary binary, Platform platform)
         {

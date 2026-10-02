@@ -64,7 +64,7 @@ Only chromedriver has a download helper. For Chrome and chrome-headless-shell, l
 
 ## Look up a download URL
 
-`LatestVersionsPerMilestoneWithDownload.ChromeVersionModel` has three lookup methods. Each reads `latest-versions-per-milestone-with-downloads.json` again, which lists one version per milestone, and returns `null` when nothing matches.
+`LatestVersionsPerMilestoneWithDownload.ChromeVersionModel` has three lookup methods. Each answers from the model you call it on, without reading the endpoint again; the endpoint lists one version per milestone. Versions compare as numbers, part by part. Each returns `null` when nothing matches.
 
 | Method | Returns |
 |---|---|
@@ -98,7 +98,7 @@ https://storage.googleapis.com/chrome-for-testing-public/118.0.5993.70/win64/chr
 https://storage.googleapis.com/chrome-for-testing-public/120.0.6099.109/linux64/chrome-headless-shell-linux64.zip
 ```
 
-`AssetList.GetAssetListAsync<T>(binary, platform)` returns the whole map behind these methods: version string to URL, for every milestone that has the binary on the platform. `T` is `LatestVersionsPerMilestoneWithDownload.ChromeVersionModel`, the only model that implements `IDownload`.
+`AssetList.GetAssetListAsync<T>(binary, platform)` reads the endpoint itself and returns the whole map behind these methods: version string to URL, for every milestone that has the binary on the platform. `T` is `LatestVersionsPerMilestoneWithDownload.ChromeVersionModel`, the only model that implements `IDownload`.
 
 ### The current Stable chromedriver
 
@@ -174,7 +174,7 @@ foreach (var (milestone, entry) in result.Milestones)
 
 Every model also has `TimeStamp`, the time the endpoint was generated, in UTC. A `Downloads` object has `Chrome`, `ChromeDriver` and `ChromeHeadlessShell` lists of `Platform` and `Url` pairs; older versions have empty lists for the binaries Chrome for Testing did not publish then (chromedriver starts at milestone 115, chrome-headless-shell at 120). In the two milestone models, the `Channel` property holds the milestone number (`"120"`), not a channel name.
 
-The model classes hold a `QueryEndpointAsync` delegate, so `System.Text.Json` cannot serialize them back to JSON (it throws `NotSupportedException`). The factory always uses a new instance's default delegate.
+The models serialize back to JSON with `System.Text.Json`, under the endpoint's property names; their `QueryEndpointAsync` delegate is left out. The factory always uses a new instance's default delegate, so setting it on a model changes nothing the factory reads.
 
 To get an endpoint's JSON as a string, call `GoogleChromeLabsEndpointQueries` directly:
 
