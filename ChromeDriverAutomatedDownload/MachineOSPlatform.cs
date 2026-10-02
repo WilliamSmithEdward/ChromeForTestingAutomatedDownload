@@ -2,8 +2,19 @@
 
 namespace ChromeForTestingAutomatedDownload
 {
+    /// <summary>
+    /// Works out the Chrome for Testing platform of this machine.
+    /// </summary>
     public static class MachineOSPlatform
     {
+        /// <summary>
+        /// On Windows, returns <see cref="Platform.Win32"/> if chrome.exe is in %ProgramFiles(x86)%\Google\Chrome\Application,
+        /// otherwise <see cref="Platform.Win64"/> if it is in %ProgramW6432%\Google\Chrome\Application; the answer depends
+        /// on where Chrome is installed, not on the processor. On Linux, returns <see cref="Platform.Linux64"/> for an x64
+        /// process. On macOS, returns <see cref="Platform.MacX64"/> or <see cref="Platform.MacArm64"/> by the process architecture.
+        /// </summary>
+        /// <returns>The platform.</returns>
+        /// <exception cref="Exception">Chrome was not found on Windows, or the operating system or architecture is not one of the above.</exception>
         public static Platform GetPlatform()
         {
             string osDescription = RuntimeInformation.OSDescription;

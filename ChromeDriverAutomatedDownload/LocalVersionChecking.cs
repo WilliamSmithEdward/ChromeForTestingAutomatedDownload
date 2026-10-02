@@ -3,8 +3,21 @@ using System.Runtime.InteropServices;
 
 namespace ChromeForTestingAutomatedDownload
 {
+    /// <summary>
+    /// Reads the version of the Chrome installed on this machine.
+    /// </summary>
     public static class LocalVersionChecking
     {
+        /// <summary>
+        /// On Windows, reads the file version of chrome.exe in %ProgramW6432%\Google\Chrome\Application without
+        /// running it; a Chrome found only under %ProgramFiles(x86)% is reported as not found. On Linux, runs
+        /// google-chrome --product-version, which .NET looks for in the application's folder, then the current
+        /// directory, then PATH. On macOS, runs /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --version.
+        /// Neither command has a timeout.
+        /// </summary>
+        /// <returns>The local version.</returns>
+        /// <exception cref="Exception">Chrome was not found, its version could not be read, or the command failed or wrote to standard error.</exception>
+        /// <exception cref="PlatformNotSupportedException">The operating system is not Windows, Linux or macOS.</exception>
         public static async Task<LocalVersion> GetChromeVersion()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

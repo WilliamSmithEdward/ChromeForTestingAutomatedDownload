@@ -26,16 +26,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Chrome for Testing Automated Download</Title>
+    <Authors>WilliamSmithE</Authors>
     <Copyright>William Smith (WilliamSmithE)</Copyright>
-    <Description>ChromeForTestingAutomatedDownload is a C# library that interacts with the GoogleChromeLabs Chrome for Testing JSON endpoints to download Chrome automation resources.</Description>
+    <Description>Reads Google's Chrome for Testing JSON endpoints into C# models and looks up the download URLs of Chrome, chromedriver and chrome-headless-shell by version, milestone and platform. One helper downloads and extracts the chromedriver that matches the Chrome installed on the machine.</Description>
     <PackageProjectUrl>https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload</PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageTags>googlechromelabs;chromefortesting;chrome;chromedriver;chromeheadlessshell;automation;download;selenium;webdriver</PackageTags>
+	<PackageTags>googlechromelabs;chromefortesting;chrome-for-testing;chrome;chromedriver;chromeheadlessshell;chrome-headless-shell;automation;download;selenium;webdriver</PackageTags>
 	<PackageIcon>ChromeForTestingAutomatedDownload.png</PackageIcon>
   </PropertyGroup>
 
