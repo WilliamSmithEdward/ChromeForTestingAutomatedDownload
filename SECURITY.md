@@ -36,13 +36,15 @@ reaches, reads, writes and runs:
   with `..` is refused; otherwise only its file name, `chromedriver` or
   `chromedriver.exe`, is used.
 - **Files read and processes started.** `LocalVersionChecking` reads the
-  file version of `chrome.exe` under Program Files on Windows and runs
-  nothing there. On Linux it runs `google-chrome --product-version`, which
-  .NET looks for in the application's folder, then the current directory,
-  then `PATH`; on macOS it runs
+  file version of `chrome.exe` under Program Files, Program Files (x86) or
+  the user's AppData\Local on Windows and runs nothing there. On Linux it
+  runs `google-chrome --product-version`, with `google-chrome` taken from
+  the first absolute folder on `PATH`, never the application's folder or
+  the current directory; on macOS it runs
   `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --version`.
-  `DownloadChromeDriverAsync` calls it. Nothing the library downloads is
-  run by the library.
+  Either command is stopped after 30 seconds. `DownloadChromeDriverAsync`
+  calls it unless given a milestone. Nothing the library downloads is run
+  by the library.
 
 The library trusts the Chrome for Testing JSON as it is served over HTTPS.
 It requires the download URL to be absolute HTTPS but does not restrict its
@@ -68,9 +70,10 @@ application ships is not replaced by surprise.
 
 ### Running the version check on Linux
 
-Make sure no file named `google-chrome` sits in your application's folder or
-in the current directory, since .NET runs one found there before the one on
-`PATH`.
+The `google-chrome` that runs is the first one on `PATH`. Keep folders that
+other users can write to off the `PATH` of a process that calls
+`GetChromeVersion` or `DownloadChromeDriverAsync` without a milestone, or
+pass the milestone yourself.
 
 ## How the code is checked
 

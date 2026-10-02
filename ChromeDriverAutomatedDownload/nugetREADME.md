@@ -186,30 +186,30 @@ It has one method per endpoint: `GetKnownGoodVersionsAsync`, `GetKnownGoodVersio
 | `Platform` | Chrome for Testing name |
 |---|---|
 | `Linux64` | `linux64` |
+| `LinuxArm64` | `linux-arm64` (from milestone 153) |
 | `MacArm64` | `mac-arm64` |
 | `MacX64` | `mac-x64` |
 | `Win32` | `win32` |
 | `Win64` | `win64` |
 
-Chrome for Testing also publishes `linux-arm64` from milestone 153. There is no `Platform` value for it, so the lookup methods cannot return those URLs; read them from the models.
-
 ### Platform detection
 
 `MachineOSPlatform.GetPlatform()` returns:
 
-- Windows: `Win32` if `chrome.exe` is in `Program Files (x86)\Google\Chrome\Application`, otherwise `Win64` if it is in `Program Files\Google\Chrome\Application`, otherwise it throws ("Google Chrome not found on the machine."). The answer depends on where Chrome is installed, not on the processor. A per-user install under `AppData` is not found.
-- Linux: `Linux64` on x64. Any other processor throws ("Unknown Linux architecture.").
+- Windows: `Win64` on a 64-bit Windows and `Win32` on a 32-bit one. Chrome need not be installed, and where it is installed does not matter: the win64 chromedriver works with a 32-bit Chrome too.
+- Linux: `Linux64` on x64 and `LinuxArm64` on Arm64, by the processor the .NET process runs on. Any other processor throws ("Unknown Linux architecture.").
 - macOS: `MacX64` or `MacArm64`, by the processor the .NET process runs on.
 - Anything else throws ("Unknown OS platform.").
 
 ### Local Chrome version
 
-`LocalVersionChecking.GetChromeVersion()` returns a `LocalVersion` with `VersionString` and `MajorReleaseNumber` (0 if the version cannot be parsed).
+`LocalVersionChecking.GetChromeVersion()` returns a `LocalVersion` with `VersionString`, trimmed, and `MajorReleaseNumber` (0 if the version cannot be parsed).
 
-- Windows: reads the file version of `chrome.exe` in `Program Files\Google\Chrome\Application`. Nothing is run. A Chrome installed only in `Program Files (x86)` is reported as not found ("Google Chrome not found on the machine.").
-- Linux: runs `google-chrome --product-version`. .NET looks for `google-chrome` in the application's folder first, then the current directory, then `PATH`. Any output on standard error is treated as a failure.
+- Windows: reads the file version of the first `chrome.exe` found under `Google\Chrome\Application` in `Program Files`, `Program Files (x86)` or the user's `AppData\Local`, in that order. Nothing is run. If there is none, it throws ("Google Chrome not found on the machine.").
+- Linux: runs `google-chrome --product-version`, with `google-chrome` taken from the first absolute folder on `PATH` that has it. The application's folder, the current directory and relative `PATH` entries are never searched. Without one it throws.
 - macOS: runs `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --version`.
-- Neither command has a timeout.
+- A command that exits with a code other than 0 fails with what it wrote to standard error; warnings on standard error from a command that succeeded are ignored. A command still running after 30 seconds is stopped and fails.
+- Nothing the library downloads is ever run.
 
 ```csharp
 using ChromeForTestingAutomatedDownload;

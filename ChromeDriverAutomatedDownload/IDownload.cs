@@ -14,7 +14,7 @@
     }
 
     /// <summary>
-    /// A Chrome for Testing platform. Chrome for Testing's linux-arm64 has no value here.
+    /// A Chrome for Testing platform.
     /// </summary>
     public enum Platform
     {
@@ -27,7 +27,9 @@
         /// <summary>win32.</summary>
         Win32,
         /// <summary>win64.</summary>
-        Win64
+        Win64,
+        /// <summary>linux-arm64, which Chrome for Testing publishes from milestone 153.</summary>
+        LinuxArm64
     }
 
     /// <summary>
