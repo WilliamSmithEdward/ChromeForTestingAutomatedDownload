@@ -57,7 +57,11 @@ namespace ChromeForTestingAutomatedDownload
         /// <exception cref="InvalidDataException">The chromedriver URL is not absolute HTTPS, the download is not a ZIP file, the ZIP file has no chromedriver entry, or that entry's path is absolute or leaves its folder.</exception>
         /// <exception cref="HttpRequestException">The endpoint or the download could not be reached, or returned a status code that is not a success.</exception>
         /// <exception cref="DirectoryNotFoundException"><paramref name="downloadPath"/> does not exist.</exception>
-        public static async Task<string> DownloadChromeDriverAsync(Platform platform, int majorReleaseNumber, string downloadPath, HttpClient httpClient, CancellationToken cancellationToken = default)
+        public static Task<string> DownloadChromeDriverAsync(Platform platform, int majorReleaseNumber, string downloadPath, HttpClient httpClient, CancellationToken cancellationToken = default) =>
+            DownloadChromeDriverAsync(platform, majorReleaseNumber, downloadPath, httpClient, Path.GetTempPath(), cancellationToken);
+
+        // The download with the folder for the temporary ZIP file as a parameter, so a test can watch it.
+        internal static async Task<string> DownloadChromeDriverAsync(Platform platform, int majorReleaseNumber, string downloadPath, HttpClient httpClient, string temporaryFolder, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(httpClient);
 
@@ -84,7 +88,7 @@ namespace ChromeForTestingAutomatedDownload
 
             // The ZIP file goes to a temporary file of its own, deleted when it is closed, so the
             // download folder only ever receives chromedriver.
-            var zipPath = Path.Combine(Path.GetTempPath(), $"cft-chromedriver-{Guid.NewGuid():N}.zip");
+            var zipPath = Path.Combine(temporaryFolder, $"cft-chromedriver-{Guid.NewGuid():N}.zip");
 
             await using var zipFile = new FileStream(zipPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None,
                 bufferSize: 81920, FileOptions.DeleteOnClose | FileOptions.Asynchronous);

@@ -11,6 +11,7 @@
                 Platform.MacX64 => "mac-x64",
                 Platform.Win32 => "win32",
                 Platform.Win64 => "win64",
+                Platform.LinuxArm64 => "linux-arm64",
                 _ => null,
             };
         }

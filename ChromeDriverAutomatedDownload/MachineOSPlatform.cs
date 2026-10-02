@@ -8,23 +8,23 @@ namespace ChromeForTestingAutomatedDownload
     public static class MachineOSPlatform
     {
         /// <summary>
-        /// On Windows, returns <see cref="Platform.Win32"/> if chrome.exe is in %ProgramFiles(x86)%\Google\Chrome\Application,
-        /// otherwise <see cref="Platform.Win64"/> if it is in %ProgramW6432%\Google\Chrome\Application; the answer depends
-        /// on where Chrome is installed, not on the processor. On Linux, returns <see cref="Platform.Linux64"/> for an x64
-        /// process. On macOS, returns <see cref="Platform.MacX64"/> or <see cref="Platform.MacArm64"/> by the process architecture.
+        /// On Windows, returns <see cref="Platform.Win64"/> on a 64-bit Windows, whatever the process or the Chrome
+        /// install, and <see cref="Platform.Win32"/> on a 32-bit one; Chrome need not be installed. On Linux, returns
+        /// <see cref="Platform.Linux64"/> or <see cref="Platform.LinuxArm64"/> by the process architecture. On macOS,
+        /// returns <see cref="Platform.MacX64"/> or <see cref="Platform.MacArm64"/> by the process architecture.
         /// </summary>
         /// <returns>The platform.</returns>
-        /// <exception cref="Exception">Chrome was not found on Windows, or the operating system or architecture is not one of the above.</exception>
-        public static Platform GetPlatform()
-        {
-            string osDescription = RuntimeInformation.OSDescription;
-            Architecture processArchitecture = RuntimeInformation.ProcessArchitecture;
+        /// <exception cref="Exception">The operating system or architecture is not one of the above.</exception>
+        public static Platform GetPlatform() =>
+            Detect(RuntimeInformation.OSDescription, RuntimeInformation.ProcessArchitecture, Environment.Is64BitOperatingSystem);
 
+        internal static Platform Detect(string osDescription, Architecture processArchitecture, bool is64BitOperatingSystem)
+        {
             if (osDescription.Contains("Windows"))
             {
-                if (File.Exists(Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%"), "Google\\Chrome\\Application\\chrome.exe"))) return Platform.Win32;
-                else if (File.Exists(Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramW6432%"), "Google\\Chrome\\Application\\chrome.exe"))) return Platform.Win64;
-                else throw new Exception("Google Chrome not found on the machine.");
+                // win64 chromedriver runs on any 64-bit Windows, Windows 11 on Arm64 through emulation,
+                // and drives a 32-bit Chrome as well as a 64-bit one.
+                return is64BitOperatingSystem ? Platform.Win64 : Platform.Win32;
             }
 
             if (osDescription.Contains("Linux"))
@@ -32,6 +32,11 @@ namespace ChromeForTestingAutomatedDownload
                 if (processArchitecture == Architecture.X64)
                 {
                     return Platform.Linux64;
+                }
+
+                else if (processArchitecture == Architecture.Arm64)
+                {
+                    return Platform.LinuxArm64;
                 }
 
                 else
