@@ -1,5 +1,13 @@
 # ChromeForTestingAutomatedDownload
 
+[![NuGet version](https://img.shields.io/nuget/v/ChromeForTestingAutomatedDownload)](https://www.nuget.org/packages/ChromeForTestingAutomatedDownload)
+[![Downloads](https://img.shields.io/nuget/dt/ChromeForTestingAutomatedDownload)](https://www.nuget.org/packages/ChromeForTestingAutomatedDownload)
+[![CI](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/actions/workflows/ci.yml)
+[![Security](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/actions/workflows/security.yml)
+[![Malware scan](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/actions/workflows/malware-scan.yml/badge.svg?branch=main)](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/actions/workflows/malware-scan.yml)
+[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload)](https://scorecard.dev/viewer/?uri=github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/WilliamSmithEdward/ChromeForTestingAutomatedDownload/blob/main/LICENSE)
+
 ChromeForTestingAutomatedDownload reads the JSON endpoints that Google publishes for [Chrome for Testing](https://github.com/GoogleChromeLabs/chrome-for-testing) and turns them into C# objects. From those you can look up the download URL of Chrome, chromedriver or chrome-headless-shell for a version and platform. One helper goes further and downloads the chromedriver that matches the Chrome installed on the machine.
 
 ```
