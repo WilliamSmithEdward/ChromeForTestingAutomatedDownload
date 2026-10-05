@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <PackageVersion>2.0.0</PackageVersion>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <PackageVersion>2.0.1</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageReadmeFile>nugetREADME.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 	
   <ItemGroup>
@@ -15,7 +15,7 @@
       <PackagePath>\</PackagePath>
     </None>
     <InternalsVisibleTo Include="ChromeForTestingAutomatedDownload.Tests" />
-    <None Include="nugetREADME.md">
+    <None Include="../README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
