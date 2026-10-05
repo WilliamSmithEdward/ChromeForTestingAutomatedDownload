@@ -10,6 +10,12 @@ nuget.org nor the READMEs carried release notes for them. Versions 1.0.0 to
 1.1.2 are unlisted on nuget.org; 1.1.3 is the listed version. All of them
 target net7.0.
 
+## [2.0.1] - 2026-10-04
+
+* The NuGet package now embeds the root GitHub `README.md`, including its badges, as its only README. The OpenSSF Scorecard badge is served through `img.shields.io`, which NuGet supports.
+* CI and Publish verify that the packaged README exactly matches the root file.
+* No library API or runtime behavior changes.
+
 ## [2.0.0] - 2026-10-02
 
 The chromedriver download no longer writes anything but chromedriver into its folder, refuses URLs that are not HTTPS and ZIP entries that leave the folder, and the Linux version check no longer runs a `google-chrome` from the application's folder or the current directory. Several of the fixes change what callers see, hence the major version.
